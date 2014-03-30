@@ -7,11 +7,110 @@
 <meta name="date" content="2014-03-01">
 <link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
+<script language="JavaScript">
+// array of urls and array of words
+u = new Array();
+w = new Array();
+k = new Array();
+
+u.push('javafx/animation/package-frame.html'); w.push('javafx.animation');
+u.push('javafx/application/package-frame.html'); w.push('javafx.application');
+u.push('javafx/beans/package-frame.html'); w.push('javafx.beans');
+u.push('javafx/beans/binding/package-frame.html'); w.push('javafx.beans.binding');
+u.push('javafx/beans/property/package-frame.html'); w.push('javafx.beans.property');
+u.push('javafx/beans/property/adapter/package-frame.html'); w.push('javafx.beans.property.adapter');
+u.push('javafx/beans/value/package-frame.html'); w.push('javafx.beans.value');
+u.push('javafx/collections/package-frame.html'); w.push('javafx.collections');
+u.push('javafx/collections/transformation/package-frame.html'); w.push('javafx.collections.transformation');
+u.push('javafx/concurrent/package-frame.html'); w.push('javafx.concurrent');
+u.push('javafx/css/package-frame.html'); w.push('javafx.css');
+u.push('javafx/embed/swing/package-frame.html'); w.push('javafx.embed.swing');
+u.push('javafx/embed/swt/package-frame.html'); w.push('javafx.embed.swt');
+u.push('javafx/event/package-frame.html'); w.push('javafx.event');
+u.push('javafx/fxml/package-frame.html'); w.push('javafx.fxml');
+u.push('javafx/geometry/package-frame.html'); w.push('javafx.geometry');
+u.push('javafx/print/package-frame.html'); w.push('javafx.print');
+u.push('javafx/scene/package-frame.html'); w.push('javafx.scene');
+u.push('javafx/scene/canvas/package-frame.html'); w.push('javafx.scene.canvas');
+u.push('javafx/scene/chart/package-frame.html'); w.push('javafx.scene.chart');
+u.push('javafx/scene/control/package-frame.html'); w.push('javafx.scene.control');
+u.push('javafx/scene/control/cell/package-frame.html'); w.push('javafx.scene.control.cell');
+u.push('javafx/scene/effect/package-frame.html'); w.push('javafx.scene.effect');
+u.push('javafx/scene/image/package-frame.html'); w.push('javafx.scene.image');
+u.push('javafx/scene/input/package-frame.html'); w.push('javafx.scene.input');
+u.push('javafx/scene/layout/package-frame.html'); w.push('javafx.scene.layout');
+u.push('javafx/scene/media/package-frame.html'); w.push('javafx.scene.media');
+u.push('javafx/scene/paint/package-frame.html'); w.push('javafx.scene.paint');
+u.push('javafx/scene/shape/package-frame.html'); w.push('javafx.scene.shape');
+u.push('javafx/scene/text/package-frame.html'); w.push('javafx.scene.text');
+u.push('javafx/scene/transform/package-frame.html'); w.push('javafx.scene.transform');
+u.push('javafx/scene/web/package-frame.html'); w.push('javafx.scene.web');
+u.push('javafx/stage/package-frame.html'); w.push('javafx.stage');
+u.push('javafx/util/package-frame.html'); w.push('javafx.util');
+u.push('javafx/util/converter/package-frame.html'); w.push('javafx.util.converter');
+u.push('netscape/javascript/package-frame.html'); w.push('netscape.javascript');
+// set text of a page element
+function setText(id, text) {
+	var node = document.getElementById(id);
+	if (node != null) {
+	  //node.childNodes[0].data = text;
+	  node.innerHTML = text;
+	}
+}
+
+// look for the textedit field in all the words
+function  search() {
+	var target = document.control.target.value;
+
+	var count=0;
+	var contents = " Results for '" + target +"'</h2>";
+	target = target.toLowerCase();
+	for (var i in w) {
+		if (w[i].toLowerCase().indexOf(target)!=-1) {
+			contents = contents + "<li><a href=" + u[i] + " target='packageFrame'>" + w[i] + "</a>";
+			k[i] = u[i].replace("package-frame.html", "package-summary.html");
+			contents = contents + "<div class='info'>[<a href=" + k[i] + " target='classFrame'>Info</a>]</div></li>\n";
+			count++;
+		}
+	}
+	contents = "<h2>" + count + contents + "<hr>";
+	setText("result", contents);
+}
+function feelingLucky() {
+	var target = document.control.target.value.toLowerCase();
+	for(var i in w)
+	{
+		if(w[i].toLowerCase() == target)
+		{
+			top.frames['packageFrame'].location = u[i];
+			return;
+		}
+	}
+}
+
+function incremental_search(inputfield)
+{ 
+	if(inputfield.value.length > 0) search();
+	else setText("result", "");
+}
+
+</script>
+
 </head>
-<body>
-<h1 title="JavaFX&amp;nbsp;8" class="bar">JavaFX&nbsp;8</h1>
-<div class="indexHeader"><span><a href="allclasses-frame.html" target="packageFrame">All&nbsp;Classes</a></span></div>
+<body onload="document.control.target.focus();">
+<h1 title="JavaFX&amp;nbsp;8" class="bar">
+	<form name=control onsubmit="search(); return false;" >
+Package: <input type=text name=target onkeyup="incremental_search(this);" size="15">
+<input type=submit value="Search" onclick="feelingLucky(); return false;">
+</form>
+</h1>
+<div class="indexHeader"><a href="allclasses-frameSearchable.html" target="packageFrame">All Classes</a></div>
 <div class="indexContainer">
+	<ul>
+	<div id="result">
+	</div>
+</ul>
+
 <h2 title="Packages">Packages</h2>
 <ul title="Packages">
 <li><a href="javafx/animation/package-frame.html" target="packageFrame">javafx.animation</a></li>
